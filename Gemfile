@@ -42,3 +42,10 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # To serialize the resources we are going to expose on the API
 gem 'active_model_serializers'
+
+group :test do
+  # Need to run "rails g rspec:install" after running "bundle install"
+  gem "rspec-rails"
+  gem "factory_girl_rails"
+  gem "ffaker"
+end
