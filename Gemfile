@@ -48,6 +48,9 @@ group :test do
   gem "rspec-rails"
   gem "factory_girl_rails"
   gem "ffaker"
+  # Need to configure "Shoulda::Matchers" in rails_helper.rb as per
+  # https://www.sitepoint.com/learn-the-first-best-practices-for-rails-and-rspec/
+  gem "shoulda-matchers"
 end
 
 # Need to run "rails g devise:install" and "rails g devise User"
