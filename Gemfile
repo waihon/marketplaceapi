@@ -49,3 +49,7 @@ group :test do
   gem "factory_girl_rails"
   gem "ffaker"
 end
+
+# Need to run "rails g devise:install" and "rails g devise User"
+# after running "bundle install"
+gem "devise"
