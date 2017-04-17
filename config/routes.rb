@@ -14,7 +14,7 @@ Rails.application.routes.draw do
           # Handling versioning through headers instead of sub-folder
           constraints: ApiConstraints.new(version: 1, default: true) do
       # We are going to list our resources here
-      resources :users, only: [:show, :create, :update]
+      resources :users, only: [:show, :create, :update, :destroy]
     end
   end
 end

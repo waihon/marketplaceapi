@@ -89,4 +89,13 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       it { is_expected.to respond_with(422) } # Unprocessable Entity
     end
   end
+
+  describe "DELETE #destroy" do
+    before(:each) do
+      @user = FactoryGirl.create :user
+      delete :destroy, params: { id: @user.id, format: :json }
+    end
+
+    it { is_expected.to respond_with(204) } # No Content
+  end
 end
