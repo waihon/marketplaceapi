@@ -10,9 +10,21 @@ class Api::V1::UsersController < ApplicationController
     if user.save
       # location option is used to redirect to a new resource as part of
       # processing the request.
-      render json: user, status: 201, location: [:api, user]
+      render json: user, status: 201, location: [:api, user] # Created
     else
-      render json: { errors: user.errors }, status: 422
+      render json: { errors: user.errors }, status: 422 # Unprocessable Entity
+    end
+  end
+
+  def update
+    user = User.find(params[:id])
+
+    if user.update(user_params)
+      # location option is used to redirect to a new resource as part of
+      # processing the request.
+      render json: user, status: 200, location: [:api, user] # OK
+    else
+      render json: { errors: user.errors}, status: 422 # Unprocessable Entity
     end
   end
 
