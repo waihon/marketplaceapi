@@ -1,12 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::UsersController, type: :controller do
-  before(:each) { request.headers["Accept"] = "application/vnd.marketplace.v1" }
+  # Deprecation warning - Mime::JSON has been replace by Mime[:json]
+  # https://github.com/rails/jbuilder/issues/345
+  before(:each) do
+    # Removed application/vnd.marketplace.v1 from Accept header due to no
+    # corresponding renderer for this format.    
+    request.headers["Accept"] = Mime[:json].to_s
+    request.headers["Content-Type"] = Mime[:json].to_s
+  end
 
   describe "GET #show" do
     before(:each) do
       @user = FactoryGirl.create :user
-      get :show, params: { id: @user.id, format: :json }
+      get :show, params: { id: @user.id }
     end
 
     it "returns the information about a reporter on a hash" do
@@ -21,7 +28,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     context "when is successfully created" do
       before(:each) do
         @user_attributes = FactoryGirl.attributes_for :user
-        post :create, params: { user: @user_attributes, format: :json }
+        post :create, params: { user: @user_attributes }
       end
 
       it "renders the JSON representation for the user record just created" do
@@ -37,7 +44,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
         # Notice that email is not included
         @invalid_user_attributes = { password: "12345678",
                                      password_confirmation: "12345678" }
-        post :create, params: { user: @invalid_user_attributes, format: :json }
+        post :create, params: { user: @invalid_user_attributes }
       end
 
       it "renders an errors JSON" do
@@ -58,7 +65,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     context "when is successfully updated" do
       before(:each) do
         @user = FactoryGirl.create :user
-        patch :update, params: { id: @user.id, user: { email: "newmail@example.com" }, format: :json }
+        patch :update, params: { id: @user.id, user: { email: "newmail@example.com" } }
       end
 
       it "renders the JSON representation for the updated user" do
@@ -72,7 +79,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     context "when is not updated" do
       before(:each) do
         @user = FactoryGirl.create :user
-        patch :update, params: { id: @user.id, user: { email: "badmail.com" }, format: :json }
+        patch :update, params: { id: @user.id, user: { email: "badmail.com" } }
       end
 
       it "renders an errors JSON" do
@@ -92,7 +99,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
   describe "DELETE #destroy" do
     before(:each) do
       @user = FactoryGirl.create :user
-      delete :destroy, params: { id: @user.id, format: :json }
+      delete :destroy, params: { id: @user.id }
     end
 
     it { is_expected.to respond_with(204) } # No Content
