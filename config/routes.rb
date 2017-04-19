@@ -1,7 +1,6 @@
 require "api_constraints"
 
 Rails.application.routes.draw do
-  devise_for :users
   # http://guides.rubyonrails.org/routing.html
   # Rails will automatically map a namespace to a directory matching
   # the name under to controllers folder.
@@ -14,7 +13,12 @@ Rails.application.routes.draw do
           # Handling versioning through headers instead of sub-folder
           constraints: ApiConstraints.new(version: 1, default: true) do
       # We are going to list our resources here
+      # Accessed via http://api.xxxxxxxx.yyy
       resources :users, only: [:show, :create, :update, :destroy]
     end
   end
+  # Due to duplicates in URI pattern, notably "POST /users", priority is
+  # given to custom resources.
+  # Accessed via http://xxxxxxxx.yyy
+  devise_for :users
 end
