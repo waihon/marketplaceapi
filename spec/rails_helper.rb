@@ -56,6 +56,8 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
 
   # Test helpers
+  # Including `Devise::TestHelpers` is deprecated and will be removed from Devise.
+  # For controller tests, include `Devise::Test::ControllerHelpers` instead.
   config.include Devise::Test::ControllerHelpers, :type => :controller
   config.include Request::JsonHelpers, :type => :controller
   config.include Request::HeadersHelpers, :type => :controller

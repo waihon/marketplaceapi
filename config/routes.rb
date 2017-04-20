@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       # We are going to list our resources here
       # Accessed via http://api.xxxxxxxx.yyy
       resources :users, only: [:show, :create, :update, :destroy]
+      resources :sessions, only: [:create, :destroy] # sign in, sign out
     end
   end
   # Due to duplicates in URI pattern, notably "POST /users", priority is
