@@ -6,4 +6,7 @@ class ApplicationController < ActionController::API
   # https://github.com/plataformatec/devise/issues/2209
   # https://github.com/plataformatec/devise/issues/2215
   respond_to :json
+
+  # Why need to include this module in ApplicationController?
+  include Authenticable
 end
