@@ -1,15 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::UsersController, type: :controller do
-  # # Deprecation warning - Mime::JSON has been replace by Mime[:json]
-  # # https://github.com/rails/jbuilder/issues/345
-  # before(:each) do
-  #   # Removed application/vnd.marketplace.v1 from Accept header due to no
-  #   # corresponding renderer for this format.
-  #   request.headers["Accept"] = Mime[:json].to_s
-  #   request.headers["Content-Type"] = Mime[:json].to_s
-  # end
-
   describe "GET #show" do
     before(:each) do
       @user = FactoryGirl.create :user
@@ -65,6 +56,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     context "when is successfully updated" do
       before(:each) do
         @user = FactoryGirl.create :user
+        api_authorization_header @user.auth_token
         patch :update, params: { id: @user.id, user: { email: "newmail@example.com" } }
       end
 
@@ -79,6 +71,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     context "when is not updated" do
       before(:each) do
         @user = FactoryGirl.create :user
+        api_authorization_header @user.auth_token
         patch :update, params: { id: @user.id, user: { email: "badmail.com" } }
       end
 
@@ -99,6 +92,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
   describe "DELETE #destroy" do
     before(:each) do
       @user = FactoryGirl.create :user
+      api_authorization_header @user.auth_token
       delete :destroy, params: { id: @user.id }
     end
 
