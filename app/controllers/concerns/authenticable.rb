@@ -10,4 +10,10 @@ module Authenticable
   def current_user
     @current_user ||= User.find_by(auth_token: request.headers["Authorization"])
   end
+
+  # A simple authorization mechanism to prevent unsigned-in users to access the API.
+  def authenticate_with_token!
+    render json: { errors: "Not authenticated" },
+           status: :unauthorized unless current_user.present?
+  end
 end
